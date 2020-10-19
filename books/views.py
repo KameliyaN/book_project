@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here
@@ -22,8 +23,14 @@ def create(request):
     form = BookForm(request.POST)
     if form.is_valid():
         book = form.save()
+
         book.save()
         return redirect('index')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'books/create.html', context)
 
 
 def edit(request, pk):
@@ -38,3 +45,8 @@ def edit(request, pk):
         book = form.save()
         book.save()
         return redirect('index')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'books/edit.html', context)

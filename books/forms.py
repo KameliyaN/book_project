@@ -17,6 +17,15 @@ class BookForm(forms.ModelForm):
 
     def clean_pages(self):
         pages = self.cleaned_data['pages']
+
         if pages <= 0:
-            raise ValidationError(f'Pages should be more than zero')
-        return self.cleaned_data
+            raise ValidationError('Pages should be more than zero')
+        if not isinstance(pages, int):
+            raise ValidationError('Pages must be a number!')
+        return pages
+
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if not title[0].isupper():
+            raise ValidationError('The title must starts with capital letter')
+        return title
